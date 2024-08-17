@@ -43,12 +43,18 @@ router.post("/getGoogleAIAssisstance", middleWare, async (req,res) => {
         const prompt = reqBody;
 
         async function generateStory() {
-            const result = await model.generateContent(prompt);
-            if(result){
-                res.status(200).json(
-                        {"message" : result.response.text()}
-                );
+            try{
+                const result = await model.generateContent(prompt);
+                if(result){
+                    res.status(200).json(
+                            {"message" : result.response.text()}
+                    );
+                }
             }
+            catch(err){
+                res.status(200).json({"message": "error while conversation"+err})
+            }
+            
         }
         
         generateStory();
